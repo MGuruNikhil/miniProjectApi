@@ -1,14 +1,33 @@
 from flask import Flask, request, jsonify
 from youtube_transcript_api import YouTubeTranscriptApi
 from transformers import pipeline
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///summary.db'
+db = SQLAlchemy(app)
+
+class Summary(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    video_id = db.Column(db.String(100), nullable=False)
+    summary = db.Column(db.Text, nullable=False)
+
+    def __repr__(self):
+        return f"Summary('{self.video_id}', '{self.summary}')"
 
 @app.get('/summary')
 def summary_api():
     url = request.args.get('url', '')
     video_id = url.split('=')[1]
+
+    summary = Summary.query.filter_by(video_id=video_id).first()
+    if summary:
+        return jsonify(summary), 200
+
     summary = get_summary(get_transcript(video_id))
+    new_summary = Summary(video_id=video_id, summary=summary)
+    db.session.add(new_summary)
+    db.session.commit()
     print(summary)
     return jsonify(summary), 200
 
