@@ -18,6 +18,10 @@ class Summary(db.Model):
             'video_id': self.video_id,
             'summary': self.summary
         }
+    
+# Create database tables
+with app.app_context():
+    db.create_all()
 
 @app.get('/summary')
 def summary_api():

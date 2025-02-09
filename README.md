@@ -10,41 +10,20 @@ Before installing the project dependencies, it is recommended to create and acti
 
 ```sh
 # Create a virtual environment
-python3 -m venv venv
+python3 -m venv .venv
 
 # Activate the virtual environment
-source venv/bin/activate
-```
-
-### Windows
-
-```sh
-# Create a virtual environment
-python -m venv venv
-
-# Activate the virtual environment
-venv\Scripts\activate
+source .venv/bin/activate
 ```
 
 Once the virtual environment is activated, you can proceed with installing the project dependencies using the command mentioned earlier.
 
 ## Requirements
 
-The project dependencies are listed in the `requirements.txt` file. You can install them using:
+Install all the required dependencies with this command
 
 ```sh
-pip install -r requirements.txt
-```
-
-
-## Project Structure
-
-```
-__pycache__/
-.gitignore
-app.py
-README.md
-requirements.txt
+pip install flask youtube_transcript_api transformers flask_sqlalchemy flask_cors torch
 ```
 
 ## Usage
